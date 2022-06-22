@@ -3,21 +3,15 @@
 
 import os
 from googletrans import Translator
-from moviepy.editor import concatenate_audioclips, AudioFileClip
-# from moviepy.audio.io.VideoFileClip import VideoFileClip
-# from moviepy.audio.fx.audio_fadein import audio_fadein
-# from moviepy.audio.fx.audio_fadeout import audio_fadeout
-# from moviepy.audio.fx.audio_left_right import audio_left_right
-# from moviepy.audio.fx.audio_loop import audio_loop
-# from moviepy.audio.fx.audio_normalize import audio_normalize
-# from moviepy.audio.fx.volumex import volumex
-# from moviepy.audio.io.AudioFileClip import AudioFileClip
+from moviepy.audio.io.AudioFileClip import AudioFileClip
+from moviepy.audio.AudioClip import concatenate_audioclips
 from gtts import gTTS
 import PyPDF2
 import tkinter as tk
 from tkinter import filedialog
 import webbrowser
 
+root = tk.Tk()
 
 #=====================================================================================================================
 
@@ -87,12 +81,19 @@ class LanguageReader:
         sentences = text_string.split('.')
         cleaned_sentences = []
         for i in range(len(sentences)):
+            for char in sentences[i]:
+                if char not in ' .,;:!?\n':
+                    cleaned_sentences.append(sentences[i])
+                    break
+
             # If the sentence is not empty, add it to the list of cleaned sentences
-            if sentences[i] not in ['', '\n', '\n\n', ' ', '\n\n\n', '  ']:
-                cleaned_sentences.append(sentences[i])
+            # if sentences[i] not in ['   ', '', '\n', '\n\n', ' ', '\n\n\n', '  ']:
+            #     cleaned_sentences.append(sentences[i])
 
         for i in range(len(cleaned_sentences)):
-            sentences[i] += '...   '
+            if '\n' in cleaned_sentences[i]:
+                cleaned_sentences[i] = cleaned_sentences[i].replace('\n', ' ')
+            cleaned_sentences[i] += '...   '
 
         return cleaned_sentences
 
@@ -233,8 +234,6 @@ class LanguageReader:
                                slow_first=slow_first, slow_second=slow_second)
 
 
-
-
 #=====================================================================================================================
 
 # Create a GUI class for the program
@@ -248,7 +247,7 @@ class TtsGui(tk.Frame):
         :param master:
         """
         self.all_interactable_widgets = []
-        self.background_color = '#f5f5f5'
+        self.background_color = '#f8f8f8'
         self.font = ('Arial', 10)
         super().__init__(master, borderwidth=4, relief=tk.RIDGE, padx=20, pady=20, background=self.background_color)
         self.master = master
@@ -261,7 +260,7 @@ class TtsGui(tk.Frame):
                           'Spanish': 'es', 'Italian': 'it', 'Portuguese': 'pt',
                           'Russian': 'ru', 'Japanese': 'ja', 'Chinese': 'zh-CN'}
 
-        self.donation_message = 'If you like this program, please consider donating to support the development of projects like this.'
+        self.donation_message = '   If you like this program, please consider donating to support the development of projects like this.'
         self.donation_link = 'https://www.paypal.com/donate/?business=4PGVV946AQ2SA&no_recurring=0&item_name=I+am+a+student+developing+and+sharing+open+source+educational+software+for+free.+Your+generosity+is+greatly+appreciated%21&currency_code=AUD'
 
         # create an instance of the LanguageReader class
@@ -419,15 +418,15 @@ class TtsGui(tk.Frame):
         #                                                      bool(self.first_slow.get()),
         #                                                      bool(self.second_slow.get())))))
 
-        try:
-            self.language_reader.create_audio_file_from_file(self.file_name,
-                                                             file_language=self.languages[self.file_language.get()],
-                                                             language_first=self.languages[self.first_language.get()],
-                                                             language_second=self.languages[self.second_language.get()],
-                                                             slow_first=bool(self.first_slow.get()),
-                                                             slow_second=bool(self.second_slow.get()))
-        except Exception as e:
-            self.state.set('Error: ' + str(e))
+        # try:
+        self.language_reader.create_audio_file_from_file(self.file_name,
+                                                         file_language=self.languages[self.file_language.get()],
+                                                         language_first=self.languages[self.first_language.get()],
+                                                         language_second=self.languages[self.second_language.get()],
+                                                         slow_first=bool(self.first_slow.get()),
+                                                         slow_second=bool(self.second_slow.get()))
+        # except Exception as e:
+        #     self.state.set('Error: ' + str(e))
 
         self.enable_widgets()
 
@@ -442,10 +441,10 @@ class TtsGui(tk.Frame):
 
 # lr = LanguageReader()
 # print(lr.read_file('test_text.txt'))
+# print(lr.read_file('pdf_example_german.pdf'))
 # lr.create_audio_file_from_file('test_text.txt', 'de', language_first='ru', language_second='es',
 #                                slow_first=False, slow_second=True)
 
-root = tk.Tk()
+# root = tk.Tk()
 gui = TtsGui(root)
-
 root.mainloop()
