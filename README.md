@@ -5,9 +5,10 @@ Used with a GUI, the user selects a PDF or txt file and the program will generat
 
 Currently, the supported languages are English, German, French, Spanish, Italian, Portuguese, Russian, Japanese and Chinese.
 
-Translation and speach synthisis are both handeled by Google APIs.
+Translation and speech synthesis are both handled by Google APIs.
 
 
 Example:
+
 
 ![example_of_gui](https://user-images.githubusercontent.com/95901578/174991367-db3c3991-e09e-4653-b8a9-e08158d4dd1b.PNG)
