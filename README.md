@@ -5,4 +5,5 @@ Used with a GUI, the user selects a PDF or txt file and the program will generat
 
 
 example
+
 ![example_of_gui](https://user-images.githubusercontent.com/95901578/174991367-db3c3991-e09e-4653-b8a9-e08158d4dd1b.PNG)
