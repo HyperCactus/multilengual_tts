@@ -1,7 +1,7 @@
 # multilengual_tts
 A simple tool to help learners of a new language.
 
-Used with a GUI, the user selects a PDF or txt file and the program will generate an mp3 file where the text from the selected file is read out by Text to Speech, with each sentence being read twice, first in one language then in another language, both specified by the user. Optionally, one of the languages can be read more slowly. The intended use is that someone could have it read out documents were each sentence is spoken first in their native language and then more slowly in the language they are trying to learn.
+Used with a GUI, the user selects a PDF or txt file and the program will generate an mp3 file where the text from the selected file is read out by Text to Speech, with each sentence being read twice, first in one language then in another language, both specified by the user. Optionally, one or both of the languages can be read more slowly. The intended use is that someone could have it read out documents were each sentence is spoken first in their native language and then more slowly in the language they are trying to learn.
 
 
 Example:
